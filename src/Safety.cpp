@@ -1,6 +1,5 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
-#include <kobuki_msgs/WheelDropEvent.h>
 #include <kobuki_msgs/CliffEvent.h>
 #include <kobuki_msgs/BumperEvent.h>
 using namespace std;
@@ -16,29 +15,10 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
     return cmd_vel_message;
 }
 
-/*"WheelDrop" shall be false as default*/
-bool wheelDrop = false;
-
 /*A class called Safety_CallBack, that contains the different functions, 
 is created*/
 class Safety_CallBack {
     public: 
-
-        /*The function for the Wheel Drop. With pointers that passes the data 
-        from the each wheels state from the robot*/
-        void WheelDropCallBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
-            bool wheels = msg->wheel;
-            bool wheelState = msg->state;
-            wheelDrop = wheelState;
-   
-            /*if the wheel drop is activated the robot will stop and exit ROS.*/
-            if (wheelDrop == true){
-                cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));   
-                ROS_FATAL("Robot has been lifted - Exiting ROS ");
-                exit(1);
-                }
-            }       
-
         /*The function for the Cliff sensor is created. 
         With poniter that passes data from each sensor and its state*/
         void CliffCallback(const kobuki_msgs::CliffEvent::ConstPtr& msg){
@@ -49,7 +29,7 @@ class Safety_CallBack {
         ros::Rate loop_rate(21);
             /*The robot should make different turns depending on which sensor 
             is activated*/
-            if (cliffs == 1 && wheelDrop == false) {
+            if (cliffs == 1) {
                 ROS_INFO("The cliff sensr on the robot has been activated");
                 switch (sensors){
                     /*If the sensor on the left side is pressed the robot 
@@ -99,7 +79,7 @@ class Safety_CallBack {
         bool hit = msg->state;
         int bump = msg->bumper;
         ros::Rate loop_rate(21);
-        if(hit == 1 && wheelDrop==false) {
+        if(hit == 1) {
             ROS_INFO("The bumper on the robot has been hit");
             /*The robot should make different turns depending on 
             which bumper is pressed*/
@@ -159,12 +139,6 @@ int main(int argc, char *argv[]){
 
     /*To call the class it needs to be declared*/
     Safety_CallBack safetyClass;
- 
-    /*Subcribing to "/mobile_base/events/wheel_drop".
-    Evertime an advertisment is made on the 
-    topic "/mobile_base/events/wheel_drop" run "WheelDropCallBack"*/
-    ros::Subscriber WheelDrop_sub = n.subscribe("/mobile_base/events/wheel_drop",
-     1, &Safety_CallBack::WheelDropCallBack, &safetyClass);
     
     /*Subcribing to "/mobile_base/events/cliff".
     Evertime an advertisment is made on the 
