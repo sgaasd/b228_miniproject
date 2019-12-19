@@ -7,7 +7,11 @@ project(b228_miniproject)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED
+roscpp 
+geometry_msgs 
+move_base_msgs
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -111,13 +115,11 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(
-    
-# include
-# ${catkin_INCLUDE_DIRS}
-)
+include_directories(include${catkin_INCLUDE_DIRS})
 
 ## Declare a C++ library
+add_executable(Safety_node src/Safety.cpp)
+add_executable(Drive_node src/Drive.cpp)  
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/b228_miniproject.cpp
 # )
@@ -143,9 +145,14 @@ include_directories(
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(Safety_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(Drive_node
+  ${catkin_LIBRARIES}
+)
+
 
 #############
 ## Install ##
