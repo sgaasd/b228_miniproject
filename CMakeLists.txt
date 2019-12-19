@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(b228_miniproject)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
-
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -115,11 +112,9 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include${catkin_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS}include)
 
 ## Declare a C++ library
-add_executable(Safety_node src/Safety.cpp)
-add_executable(Drive_node src/Drive.cpp)  
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/b228_miniproject.cpp
 # )
@@ -130,6 +125,8 @@ add_executable(Drive_node src/Drive.cpp)
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
+add_executable(Safety_node src/Safety.cpp)
+add_executable(Drive_node src/Drive.cpp)  
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/b228_miniproject_node.cpp)
