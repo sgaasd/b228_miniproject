@@ -16,7 +16,8 @@ class Safety_CallBack {
     void CliffCallback(const kobuki_msgs::CliffEvent::ConstPtr& msg){
         bool cliffs = msg->state;
         int sensors = msg->sensor;
-
+        /* Her skal indsættes noget med bumper til den der publisher */
+        miniproject_pub = sensors;
 
     }
     /*The function BumperCallBack tells if the bumper is pressed 
@@ -24,7 +25,8 @@ class Safety_CallBack {
     void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
         bool hit = msg->state;
         int bump = msg->bumper;
-
+        /* Her skal indsættes noget med bumper til den der publisher */
+        miniproject_pub = bump;
 
     }
         
@@ -52,7 +54,7 @@ int main(int argc, char *argv[]){
     ros::Subscriber Bumper_sub = n.subscribe("mobile_base/events/bumper",
      1, &Safety_CallBack::BumperCallback, &safetyClass);
 
-     ros::Publisher miniproject_pub = n.advertise<std_msgs::String>("miniproject", 1);
+    ros::Publisher miniproject_pub = n.advertise<std_msgs::String>("miniproject", 1);
 
     /*The program has run continuously */
     ros::spin();

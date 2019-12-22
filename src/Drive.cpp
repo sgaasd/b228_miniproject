@@ -27,62 +27,33 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void drive(/*parametre fra safety*/){
+void drive(const /* noget med miniproject*/ & msg){
     geometry_msgs::Twist cmd_vel_message;
     ros::Rate loop_rate(21);
-    if (ros::ok && Safety==false){  
+    int Safety = /* msg_tpe fra miniproject */;
+    if (ros::ok && Safety!=0 && Safety!=1 && Safety!=2){  
         for(int i=0; i<=42; i++){
         cmd_vel_pub.publish(DriveMsg(0.0, 0.2));
         loop_rate.sleep();
         }
-    } else if (Safety==true){
-        /*for(int i=0; i<=42; i++){
-        cmd_vel_pub.publish(DriveMsg(0.0, -0.2));
-        loop_rate.sleep();
+    }else if (Safety==0 || Safety==1){
+        for(int i=0; i<=42; i++){ 
+            cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
+            loop_rate.sleep();
+        }
+        for(int i=0; i<=42; i++){ 
+            cmd_vel_pub.publish(DriveMsg(0.0, -(0.75)));
+            loop_rate.sleep();
+        }
+    }
+    else if (Safety==2){
+        for(int i=0; i<=42; i++){ 
+            cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
+            loop_rate.sleep();
         }
         for(int i=0; i<=42; i++){
-        cmd_vel_pub.publish(DriveMsg(0.2, 0.0));
-        loop_rate.sleep();
+            cmd_vel_pub.publish(DriveMsg(0.0, (0.75)));
+            loop_rate.sleep();
         }
-        */
-       switch (/*safety parameter*/){
-                    /*If the sensor on the left side is pressed the robot 
-                    will first drive backwards and turn right*/
-                    case 0:
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
-                        loop_rate.sleep();
-                    }
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(DriveMsg(0.0, -(0.75)));
-                        loop_rate.sleep();
-                    }
-                    break;
-                    /*If the sensor on the middle is activated the robot 
-                    will drive backwards and turn left*/
-                    case 1:
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
-                        loop_rate.sleep();
-                    }
-                    for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(DriveMsg(0.0, (0.75)));
-                        loop_rate.sleep();
-                    }
-                    break;
-                    /*If the sensor on the right side is pressed the robot 
-                    will drive backwards and turn left*/
-                     case 2:
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
-                        loop_rate.sleep();
-                    }
-                    for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(DriveMsg(0.0, (0.75)));
-                        loop_rate.sleep();
-                    }
-                    break;
-                }
-    }
-
+    }    
 }
