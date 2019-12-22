@@ -17,6 +17,7 @@ geometry_msgs::Twist DriveMsg(float x, float z){
     return cmd_vel_message;
 }
 
+/*Funktionen der kaldes når bumper eller cliff har været aktiveret*/
 void safetyAction(int SideHit){
     switch (SideHit)
         {
@@ -48,29 +49,22 @@ int main(int argc, char *argv[])
 
     cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
     
+    /*Så længe ros kører: Tjek om drive funktionen har været aktiveret*/
     while (ros::ok)
     {
         geometry_msgs::Twist cmd_vel_message;
         if (PreCount != Count)
         {
+            /*Hvis drive funktionen har kørt: Kør safetyAction funktionen, med den side der er ramt som parameter*/
             safetyAction(Safety);
             PreCount = Count;
         } else {
+            /*Hvis ikke, så kør ligeud*/
             cmd_vel_pub.publish(DriveMsg(0.0, 0.2));
         }
         ros::spinOnce();
     }
     
-/*
-    geometry_msgs::Twist cmd_vel_message;
-    if (PreCount != Count)
-    {
-        safetyAction(Safety);
-        PreCount = Count;
-    } else {
-        cmd_vel_pub.publish(DriveMsg(0.0, 0.2));
-    }
-*/
     ros::spin();
 
     return 0;
@@ -78,41 +72,8 @@ int main(int argc, char *argv[])
 
 
 void drive(const b228_miniproject::safety_msg::ConstPtr& msg){
-    //geometry_msgs::Twist cmd_vel_message;
-    //ros::Rate loop_rate(21);
-    std::cout << "drive funktion aktiveret" << std::endl;
-
+    //std::cout << "drive funktion aktiveret" << std::endl;
     Safety = msg->side;
     Count++;
-
-    /*
-    if (ros::ok && Safety!=0 && Safety!=1 && Safety!=2){  
-        for(int i=0; i<=42; i++){
-        cmd_vel_pub.publish(DriveMsg(0.0, 0.2));
-        loop_rate.sleep();
-        }
-    }else if (Safety==0 || Safety==1){
-        for(int i=0; i<=42; i++){ 
-            cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
-            loop_rate.sleep();
-        }
-        for(int i=0; i<=42; i++){ 
-            cmd_vel_pub.publish(DriveMsg(0.0, -(0.75)));
-            loop_rate.sleep();
-        }
-    }
-    else if (Safety==2){
-        for(int i=0; i<=42; i++){ 
-            cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
-            loop_rate.sleep();
-        }
-        for(int i=0; i<=42; i++){
-            cmd_vel_pub.publish(DriveMsg(0.0, (0.75)));
-            loop_rate.sleep();
-        }
-    } */   
+ 
 }
-
-
-
-/* Her er ændringen til dig San*/
