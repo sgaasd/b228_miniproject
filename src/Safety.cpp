@@ -16,7 +16,7 @@ class Safety_CallBack {
         bool cliffs = msg->state;
         int sensors = msg->sensor;
         b228_miniproject::safety_msg safety_msg;
-        /* Her skal indsættes noget med bumper til den der publisher */
+        /* If the sensor was activated, publish wat side was activated */
         if (cliffs == 1) {
             safety_msg.side = sensors;
             miniproject_pub.publish(safety_msg);
@@ -27,7 +27,7 @@ class Safety_CallBack {
         bool hit = msg->state;
         int bump = msg->bumper;
         b228_miniproject::safety_msg safety_msg;
-        /* Her skal indsættes noget med bumper til den der publisher */
+        /* If the sensor was activated, publish wat side was activated */
         if (hit == 1) {
             safety_msg.side = bump;
             miniproject_pub.publish(safety_msg);
@@ -42,9 +42,7 @@ int main(int argc, char *argv[]){
     ros::init(argc, argv, "Safety");
     ros::NodeHandle n;
     
-    
     Safety_CallBack safetyClass;
-    
 
     ros::Subscriber Cliff_sub = n.subscribe("/mobile_base/events/cliff",
      1, &Safety_CallBack::CliffCallback, &safetyClass);
@@ -54,6 +52,14 @@ int main(int argc, char *argv[]){
      1, &Safety_CallBack::BumperCallback, &safetyClass);
 
     ros::Publisher miniproject_pub = n.advertise<b228_miniproject::safety_msg>("/miniproject/safety", 1);
+
+    Input:
+    int a = 0;
+    b228_miniproject::safety_msg test;
+    std::cin >> a;
+    test.side = a;
+    miniproject_pub.publish(test);
+    goto Input; 
 
     ros::spin();
 
