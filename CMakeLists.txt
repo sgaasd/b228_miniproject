@@ -8,6 +8,8 @@ find_package(catkin REQUIRED
 roscpp 
 geometry_msgs 
 move_base_msgs
+std_msgs
+genmsg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -50,12 +52,27 @@ move_base_msgs
 #   Message2.msg
 # )
 
+
+# DET HER SKAL VI LIGE HAVE TIL AT VIRKE
+#add_message_files(b228_ws/src/b228_miniproject msg FILES Num.msg)
+#
+
+
+
+
 ## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
 #   Service1.srv
 #   Service2.srv
 # )
+
+
+# DET HER SKAL OGSÅ LIGE VIRKE AAARHGHH
+#add_service_files(b228_ws/src/b228_miniproject srv FILES AddTwoInts.srv)
+#
+
+
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -69,6 +86,7 @@ move_base_msgs
 #   DEPENDENCIES
 #   std_msgs  # Or other packages containing msgs
 # )
+generate_messages(DEPENDENCIES std_msgs)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -124,9 +142,16 @@ include_directories(${catkin_INCLUDE_DIRS}include)
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+
+#add_dependencies(talker b228_miniproject_generate_messages_cpp)
+#add_dependencies(listener b228_miniproject_generate_messages_cpp)
+
+
 ## Declare a C++ executable
 add_executable(Safety_node src/Safety.cpp)
-add_executable(Drive_node src/Drive.cpp)  
+add_executable(Drive_node src/Drive.cpp)
+add_executable(talker src/talker.cpp)  
+add_executable(listener src/listener.cpp)
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/b228_miniproject_node.cpp)
@@ -150,6 +175,13 @@ target_link_libraries(Drive_node
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(talker
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(listener
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
