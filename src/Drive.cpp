@@ -76,28 +76,30 @@ int main(int argc, char *argv[])
     ros::Subscriber miniproject_sub = n.subscribe("/miniproject/safety", 1, drive);
     cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
     
-    /*As long as ROS*/
+    /*As long as ROS runs, check if the drive function has been called*/
     while (ros::ok)
     {
-        geometry_msgs::Twist cmd_vel_message;
         if (PreCount != Count)
         {
-            /*Hvis drive funktionen har kørt: Kør safetyAction funktionen, med den side der er ramt som parameter*/
+            /*If the drive function has been called, call safetyAction with safety as parameter, and note this has been done, by Precount = Count*/
             safetyAction(Safety);
             PreCount = Count;
         } else {
-            /*Hvis ikke, så kør ligeud*/
+            /*If the drive function has not been called, drive straight*/
             cmd_vel_pub.publish(DriveMsg(0.0, 0.2));
         }
+        /*Run the while loop once. This ensures that the node also checks the topics it subscribes to*/
         ros::spinOnce();
     }  
+    /*Spin the node*/
     ros::spin();
     return 0;
 }
 
-
+/*The drive function is assigned*/
 void drive(const b228_miniproject::safety_msg::ConstPtr& msg){
-    //std::cout << "drive funktion aktiveret" << std::endl;
+    /*Set the global variable safety as the side that was activated*/
     Safety = msg->side;
+    /*Add one to count*/
     Count++;
 }
