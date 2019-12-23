@@ -8,7 +8,7 @@ void drive(const b228_miniproject::safety_msg::ConstPtr& msg);
 /*Variables for counting, and the safety functions is declared and initialized*/
 int PreCount = 0;
 int Count = 0;
-int Safety = 0;
+int Sidehit = 0;
 
 /*A ros publisher is declared*/
 ros::Publisher cmd_vel_pub;
@@ -53,7 +53,7 @@ void safetyAction(int SideHit){
             break;
             /*If a sensor on the right side is activated the robot 
             will drive backwards and turn left*/
-                case 2:
+            case 2:
             for(int i=0; i<=30; i++){ 
                 cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
                 loop_rate.sleep();
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 /*The drive function is assigned*/
 void drive(const b228_miniproject::safety_msg::ConstPtr& msg){
     /*Set the global variable safety as the side that was activated*/
-    Safety = msg->side;
+    Sidehit = msg->side;
     /*Add one to count*/
     Count++;
 }
