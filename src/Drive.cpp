@@ -41,7 +41,7 @@ void safetyAction(int SideHit){
             /*If a sensor on the left side is activated the robot 
             will first drive backwards and turn right*/
             case 0:
-            for(int i=0; i<=Turns; i++){ 
+            for(int i=0; i<=30; i++){ 
                 cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
                 loop_rate.sleep();
             }
@@ -53,7 +53,7 @@ void safetyAction(int SideHit){
             /*If a sensor on the middle is activated the robot 
             will drive backwards and turn left*/
             case 1:
-            for(int i=0; i<=Turns; i++){ 
+            for(int i=0; i<=30; i++){ 
                 cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
                 loop_rate.sleep();
             }
@@ -65,7 +65,7 @@ void safetyAction(int SideHit){
             /*If a sensor on the right side is activated the robot 
             will drive backwards and turn left*/
             case 2:
-            for(int i=0; i<=Turns; i++){ 
+            for(int i=0; i<=30; i++){ 
                 cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
                 loop_rate.sleep();
             }
