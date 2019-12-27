@@ -1,3 +1,8 @@
+// *** Author: Group B228    *** //
+// *** Project: Mini project *** //
+// *** Node: Drive node      *** //
+// *** Created: 31-12-2019   *** //
+
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <b228_miniproject/safety_msg.h>
@@ -81,7 +86,8 @@ int main(int argc, char *argv[])
     {
         if (PreCount != Count)
         {
-            /*If the drive function has been called, call safetyAction with safety as parameter, and note this has been done, by Precount = Count*/
+            /*If the drive function has been called, call safetyAction with safety as parameter, 
+            and note this has been done, by Precount = Count*/
             safetyAction(Sidehit);
             PreCount = Count;
         } else {

@@ -1,3 +1,8 @@
+// *** Author: Group B228    *** //
+// *** Project: Mini project *** //
+// *** Node: Safety node     *** //
+// *** Created: 31-12-2019   *** //
+
 #include <ros/ros.h>
 #include <kobuki_msgs/CliffEvent.h>
 #include <kobuki_msgs/BumperEvent.h>
@@ -19,7 +24,7 @@ class Safety_CallBack {
         int sensors = msg->sensor;
         /*A variable for publishing is declared*/
         b228_miniproject::safety_msg safety_msg;
-        /* If the sensor was activated, publish wat side was activated */
+        /* If the sensor was activated, publish what side was activated */
         if (cliffs == 1) {
             safety_msg.side = sensors;
             miniproject_pub.publish(safety_msg);
@@ -33,7 +38,7 @@ class Safety_CallBack {
         int bump = msg->bumper;
         /*A variable for publishing is declared*/
         b228_miniproject::safety_msg safety_msg;
-        /* If the sensor was activated, publish wat side was activated */
+        /* If the sensor was activated, publish what side was activated */
         if (hit == 1) {
             safety_msg.side = bump;
             miniproject_pub.publish(safety_msg);
