@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
         if (PreCount != Count)
         {
             /*If the drive function has been called, call safetyAction with safety as parameter, and note this has been done, by Precount = Count*/
-            safetyAction(Safety);
+            safetyAction(Sidehit);
             PreCount = Count;
         } else {
             /*If the drive function has not been called, drive straight*/
