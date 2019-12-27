@@ -33,7 +33,7 @@ geometry_msgs::Twist DriveMsg(float x, float z){
 /*A function for calling when a safety action should be executet is declared.*/
 void safetyAction(int SideHit){
     srand (time(NULL));
-    double Turns = rand() % 50 + 10;
+    int Turns = rand() % 50 + 10;
 
     ros::Rate loop_rate(20);
     switch (SideHit)
