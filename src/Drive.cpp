@@ -7,6 +7,9 @@
 #include <geometry_msgs/Twist.h>
 #include <b228_miniproject/safety_msg.h>
 
+#include <stdlib.h>
+#include <time.h>
+
 /*A prototype of the Drive function is made*/
 void drive(const b228_miniproject::safety_msg::ConstPtr& msg);
 
@@ -29,17 +32,20 @@ geometry_msgs::Twist DriveMsg(float x, float z){
 
 /*A function for calling when a safety action should be executet is declared.*/
 void safetyAction(int SideHit){
+    srand (time(NULL));
+    double Turns = rand() % 50 + 10;
+
     ros::Rate loop_rate(20);
     switch (SideHit)
         {
             /*If a sensor on the left side is activated the robot 
             will first drive backwards and turn right*/
             case 0:
-            for(int i=0; i<=30; i++){ 
+            for(int i=0; i<=Turns; i++){ 
                 cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
                 loop_rate.sleep();
             }
-            for(int i=0; i<=30; i++){ 
+            for(int i=0; i<=Turns; i++){ 
                 cmd_vel_pub.publish(DriveMsg(0.0, -(0.75)));
                 loop_rate.sleep();
             }
@@ -47,11 +53,11 @@ void safetyAction(int SideHit){
             /*If a sensor on the middle is activated the robot 
             will drive backwards and turn left*/
             case 1:
-            for(int i=0; i<=30; i++){ 
+            for(int i=0; i<=Turns; i++){ 
                 cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
                 loop_rate.sleep();
             }
-            for(int i=0; i<=30; i++){
+            for(int i=0; i<=Turns; i++){
                 cmd_vel_pub.publish(DriveMsg(0.0, (0.75)));
                 loop_rate.sleep();
             }
@@ -59,11 +65,11 @@ void safetyAction(int SideHit){
             /*If a sensor on the right side is activated the robot 
             will drive backwards and turn left*/
             case 2:
-            for(int i=0; i<=30; i++){ 
+            for(int i=0; i<=Turns; i++){ 
                 cmd_vel_pub.publish(DriveMsg(-0.2, 0.0));
                 loop_rate.sleep();
             }
-            for(int i=0; i<=30; i++){
+            for(int i=0; i<=Turns; i++){
                 cmd_vel_pub.publish(DriveMsg(0.0, (0.75)));
                 loop_rate.sleep();
             }
