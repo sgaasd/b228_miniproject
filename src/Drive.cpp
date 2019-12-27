@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
             PreCount = Count;
         } else {
             /*If the drive function has not been called, drive straight*/
-            cmd_vel_pub.publish(DriveMsg(0.0, 0.2));
+            cmd_vel_pub.publish(DriveMsg(0.2, 0.0));
         }
         /*Run the while loop once. This ensures that the node also checks the topics it subscribes to*/
         ros::spinOnce();
