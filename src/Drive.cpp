@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 
 /*The drive function is assigned*/
 void drive(const b228_miniproject::safety_msg::ConstPtr& msg){
-    /*Set the global variable safety as the side that was activated*/
+    /*Set the global variable Sidehit as the side that was activated*/
     Sidehit = msg->side;
     /*Add one to count*/
     Count++;
