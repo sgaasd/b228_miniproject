@@ -1,7 +1,7 @@
-// *** Author: Group B228    *** //
-// *** Project: Mini project *** //
-// *** Node: Safety node     *** //
-// *** Created: 31-12-2019   *** //
+        // *** Author: Group B228    *** //
+        // *** Project: Mini project *** //
+        // *** Node: Safety node     *** //
+        // *** Created: 31-12-2019   *** //
 
 #include <ros/ros.h>
 #include <kobuki_msgs/CliffEvent.h>
